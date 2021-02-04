@@ -60,7 +60,6 @@ const getUserProfile = async () => {
 
 // *8. Create shareMsg()
 const shareMsg = async () => {
-
   if (liff.isApiAvailable("shareTargetPicker")) {
     const result = await liff.shareTargetPicker([
       {
