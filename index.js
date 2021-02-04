@@ -44,33 +44,60 @@ const main = async () => {
 
   // 1. Initialize LIFF app)
   await liff.init({ liffId: "1655635109-E3bAe5pq" });
-}
+};
 main();
 
 // 6. Create getUserProfile()
 const getUserProfile = async () => {
   const profile = await liff.getProfile();
   pictureUrl.src = profile.pictureUrl;
-  userId.innerHTML = "<b>userId: </b>" + profile.userId;
-  displayName.innerHTML = "<b>displayName: </b>" + profile.displayName;
-  statusMessage.innerHTML = "<b>statusMessage: </b>" + profile.statusMessage;
+  userId.innerHTML = `<b>userId: </b> + ${profile.userId}`;
+  displayName.innerHTML = `<b>displayName: </b> + ${profile.displayName}`;
+  statusMessage.innerHTML = `<b>statusMessage: </b> + ${profile.statusMessage}`;
   // *7. Get email
-  email.innerHTML = "<b>email: </b>" + liff.getDecodedIDToken().email;
-}
+  email.innerHTML = `<b>email: </b> + ${liff.getDecodedIDToken().email}`;
+};
 
 // *8. Create shareMsg()
 const shareMsg = async () => {
-  const result = await liff.shareTargetPicker([
-    {
-      type: "text",
-      text: "This msg was shared by LIFF"
-    }
-  ]);
-  if (result) {
-    alert("Msg was shared!");
-  } else {
-    alert("ShareTargetPicker was cancelled by user");
+
+  if (liff.isApiAvailable("shareTargetPicker")) {
+    const result = await liff.shareTargetPicker([
+      {
+        type: "text",
+        text: "This msg was shared by LIFF hehe"
+        // type: "image",
+        // originalContentUrl:
+        //   "https://profile.line-scdn.net/0m02c4319072514d2921635e5add8efae5670b5c3549fa",
+        // previewImageUrl:
+        //   "https://profile.line-scdn.net/0m02c4319072514d2921635e5add8efae5670b5c3549fa"
+
+        // type: "flex",
+        // altText: "this is a flex message",
+        // contents: {
+        //   type: "bubble",
+        //   body: {
+        //     type: "box",
+        //     layout: "vertical",
+        //     contents: [
+        //       {
+        //         type: "text",
+        //         text: "hello"
+        //       },
+        //       {
+        //         type: "text",
+        //         text: "world"
+        //       }
+        //     ]
+        //   }
+        // }
+      }
+    ]);
+    result
+      ? alert("Message shared via shareTargetPicker!")
+      : alert("ShareTargetPicker was cancelled by user");
   }
+
   liff.closeWindow();
 };
 // 11. Add close window
